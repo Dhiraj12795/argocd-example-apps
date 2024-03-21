@@ -10,15 +10,15 @@
   <packaging>jar</packaging>
   
   <properties>
-    <!-- Define Kubernetes Maven Plugin version -->
-    <kubernetes.maven.plugin.version>1.16.1</kubernetes.maven.plugin.version>
     <!-- Define Java version -->
-    <java.version>17</java.version>
+    <java.version>11</java.version>
     <!-- Sonarqube properties -->
     <sonar.host.url>http://localhost:9000</sonar.host.url>
     <sonar.projectKey>Guestbook</sonar.projectKey>
     <sonar.projectName>Guestbook</sonar.projectName>
     <sonar.login>sqp_67db5db2abbfd7afa7e2a2bb5ccee86878e6e45b</sonar.login>
+    <!-- Jib plugin version -->
+    <jib-maven-plugin.version>3.1.1</jib-maven-plugin.version>
   </properties>
 
   <parent>
@@ -37,35 +37,17 @@
 
   <build>
     <plugins>
+      <!-- Remove Eclipse JKube Kubernetes Maven Plugin -->
+      <!-- Plugin to build Docker images using Jib -->
       <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-        <version>1.5.5.RELEASE</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>repackage</goal>
-            </goals>
-            <configuration>
-              <mainClass>in.myworkspot.guestbook.Guestbook</mainClass> <!-- Specify your main class here -->
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <!-- Plugin to build Docker images -->
-      <plugin>
-        <groupId>org.eclipse.jkube</groupId>
-        <artifactId>kubernetes-maven-plugin</artifactId>
-        <version>1.16.1</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>build</goal>
-            </goals>
-          </execution>
-        </executions>
+        <groupId>com.google.cloud.tools</groupId>
+        <artifactId>jib-maven-plugin</artifactId>
+        <version>3.1.1</version>
         <configuration>
-            <dockerHost>unix:///var/run/docker.sock</dockerHost>
+          <!-- Configure Jib plugin here, such as image name -->
+          <to>
+             <image>docker.io/dhiraj12795/devops-work</image>
+          </to>
         </configuration>
       </plugin>
     </plugins>
