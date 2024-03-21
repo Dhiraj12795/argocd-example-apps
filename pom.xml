@@ -1,0 +1,80 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>in.myworkspot</groupId>
+  <artifactId>guestbook</artifactId>
+  <version>1.0.0</version>
+  <packaging>jar</packaging>
+  
+  <properties>
+    <!-- Define Kubernetes Maven Plugin version -->
+    <kubernetes.maven.plugin.version>1.16.1</kubernetes.maven.plugin.version>
+    <!-- Define Java version -->
+    <java.version>17</java.version>
+    <!-- Sonarqube properties -->
+    <sonar.host.url>http://localhost:9000</sonar.host.url>
+    <sonar.projectKey>Guestbook</sonar.projectKey>
+    <sonar.projectName>Guestbook</sonar.projectName>
+    <sonar.login>sqp_67db5db2abbfd7afa7e2a2bb5ccee86878e6e45b</sonar.login>
+  </properties>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>1.5.5.RELEASE</version>
+  </parent>
+
+  <dependencies>
+    <!-- Dependencies required for your application -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>1.5.5.RELEASE</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+            <configuration>
+              <mainClass>in.myworkspot.guestbook.Guestbook</mainClass> <!-- Specify your main class here -->
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Plugin to build Docker images -->
+      <plugin>
+        <groupId>org.eclipse.jkube</groupId>
+        <artifactId>kubernetes-maven-plugin</artifactId>
+        <version>1.16.1</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>build</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+            <dockerHost>unix:///var/run/docker.sock</dockerHost>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <repositories>
+    <repository>
+      <id>central</id>
+      <url>https://repo.maven.apache.org/maven2</url>
+    </repository>
+  </repositories>
+</project>
